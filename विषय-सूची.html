@@ -64,9 +64,17 @@
                         <span class="list-icon">🌺</span>
                         राम को देख कर श्री जनक नंदिनी
                     </a>
+                    <a href="भजन/आ-तो-गयाहूँ-मगर-जानता-हूँ.html" class="list-item">
+                        <span class="list-icon">👣</span>
+                        आ तो गयाहूँ मगर जानता हूँ
+                    </a>
                     <a href="भजन/कृपा-की-न-होती-जो-आदत-तुम्हारी.html" class="list-item">
                         <span class="list-icon">☸️</span>
                         कृपा की न होती जो आदत तुम्हारी
+                    </a>
+                    <a href="भजन/शिव-सहस्रनाम.html" class="list-item">
+                        <span class="list-icon">🕉️</span>
+                        शिव सहस्रनाम
                     </a>
                 </div>
             </details>
@@ -93,10 +101,92 @@
                     </a>
                 </div>
             </details>
+            <!-- 1. pad -->
+            <details open>
+                <summary>॥ पद ॥</summary>
+                <div class="category-content">
+                    <a href="पद/दशा-मुझ-दीन-की-भगवन-सम्हालोगे-तो-क्या-होगा.html" class="list-item">
+                        <span class="list-icon">📿</span>
+                        दशा मुझ दीन की भगवन सम्हालोगे तो क्या होगा
+                    </a>
+                </div>
+            </details>
+            <details open>
+                <summary>॥ यात्रा ॥</summary>
+                <div class="category-content">
+                    <a href="यात्रा/यात्रा.html" class="list-item">
+                        <span class="list-icon">🧳</span>
+                        हरिद्वार/ऋषिकेश
+                    </a>
+                    <a href="यात्रा/गृहस्थ-जीवन-शास्त्रीय-मार्गदर्शन.html" class="list-item">
+                        <span class="list-icon">📖</span>
+                        गृहस्थ जीवन: शास्त्रीय मार्गदर्शन
+                    </a>
+                </div>
+            </details>
         </div>
 
         <div class="footer">॥ जय श्री राम ॥</div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector('.list-container');
+            if (!container) return;
+
+            const originalItems = Array.from(container.querySelectorAll('details'));
+
+            function applyMasonry() {
+                let numCols = 3;
+                if (window.innerWidth <= 768) numCols = 1;
+                else if (window.innerWidth <= 1024) numCols = 2;
+
+                if (numCols === 1) {
+                    container.style.display = 'flex';
+                    container.style.flexDirection = 'column';
+                    container.innerHTML = '';
+                    originalItems.forEach(item => container.appendChild(item));
+                    return;
+                }
+
+                container.innerHTML = '';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'row';
+                container.style.alignItems = 'flex-start';
+                container.style.gap = '20px';
+
+                const cols = [];
+                for (let i = 0; i < numCols; i++) {
+                    const col = document.createElement('div');
+                    col.style.flex = '1';
+                    col.style.display = 'flex';
+                    col.style.flexDirection = 'column';
+                    col.style.gap = '20px';
+                    container.appendChild(col);
+                    cols.push(col);
+                }
+
+                originalItems.forEach(item => {
+                    let shortest = cols[0];
+                    let minHeight = shortest.offsetHeight;
+                    for (let i = 1; i < cols.length; i++) {
+                        if (cols[i].offsetHeight < minHeight) {
+                            shortest = cols[i];
+                            minHeight = cols[i].offsetHeight;
+                        }
+                    }
+                    shortest.appendChild(item);
+                });
+            }
+
+            setTimeout(applyMasonry, 50);
+
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(applyMasonry, 200);
+            });
+        });
+    </script>
 </body>
 
 </html>
